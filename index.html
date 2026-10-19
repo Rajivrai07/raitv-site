@@ -4,545 +4,443 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="color-scheme" content="dark" />
-  <meta name="theme-color" content="#000000" />
+  <meta name="theme-color" content="#0a0014" />
   <meta name="description" content="RAI TV — Your movies & shows, beautifully organized on TV and phone. By RAJIV RAI." />
   <link rel="icon" href="raitv-icon.webp" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;400;600;700;800&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;400;600;700;800;900&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <title>RAI TV — Your Movies & Shows, Beautifully Organized</title>
   <style>
     :root {
       color-scheme: dark;
-      --bg: #000000;
-      --bg-2: #0a0a0a;
+      --bg: #0a0014;
       --text: #ffffff;
-      --muted: #a8a8a8;
-      --line: rgba(255,255,255,.14);
-      --glass: rgba(255,255,255,.07);
-      --glass-strong: rgba(255,255,255,.12);
-      --radius: 24px;
-      --font-head: "Outfit", -apple-system, "SF Pro Display", "Segoe UI", sans-serif;
-      --font-body: "Work Sans", -apple-system, "Segoe UI", Inter, Roboto, sans-serif;
+      --muted: #c4b5fd;
+      --purple: #8b5cf6;
+      --pink: #ec4899;
+      --blue: #3b82f6;
+      --cyan: #06b6d4;
+      --gold: #fbbf24;
+      --glass: rgba(255,255,255,.08);
+      --line: rgba(255,255,255,.16);
+      --radius: 28px;
+      --font-head: "Outfit", -apple-system, "SF Pro Display", sans-serif;
+      --font-body: "Work Sans", -apple-system, "Segoe UI", sans-serif;
     }
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
-      margin: 0;
-      overflow-x: hidden;
-      background: var(--bg);
-      color: var(--text);
+      margin: 0; overflow-x: hidden;
+      background: var(--bg); color: var(--text);
       font-family: var(--font-body);
       -webkit-font-smoothing: antialiased;
     }
-    h1, h2, h3 { font-family: var(--font-head); }
+    h1, h2, h3 { font-family: var(--font-head); margin: 0; }
     a { color: inherit; }
-    button, a { -webkit-tap-highlight-color: transparent; }
-    .wrap { width: min(1180px, calc(100% - 40px)); margin-inline: auto; position: relative; z-index: 2; }
+    .wrap { width: min(1200px, calc(100% - 40px)); margin-inline: auto; position: relative; z-index: 2; }
 
-    /* ---------- Ambient 3D background orbs ---------- */
-    .orbs { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
-    .orb {
-      position: absolute; border-radius: 50%;
-      filter: blur(90px); opacity: .5;
-      animation: drift 22s ease-in-out infinite alternate;
-      will-change: transform;
-    }
-    .orb.o1 { width: 520px; height: 520px; left: -140px; top: -120px;
-      background: radial-gradient(circle, rgba(255,255,255,.14), transparent 70%); }
-    .orb.o2 { width: 460px; height: 460px; right: -120px; top: 32%;
-      background: radial-gradient(circle, rgba(160,160,160,.12), transparent 70%);
-      animation-delay: -8s; animation-duration: 26s; }
-    .orb.o3 { width: 420px; height: 420px; left: 30%; bottom: -160px;
-      background: radial-gradient(circle, rgba(255,255,255,.09), transparent 70%);
-      animation-delay: -14s; animation-duration: 30s; }
-    @keyframes drift {
-      from { transform: translate3d(0,0,0) scale(1); }
-      to   { transform: translate3d(60px, 40px, 0) scale(1.12); }
+    /* ===== ANIMATED COLORFUL BACKGROUND ===== */
+    .bg-fx { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+    .blob { position: absolute; border-radius: 50%; filter: blur(100px); opacity: .55; will-change: transform; }
+    .b1 { width: 600px; height: 600px; left: -150px; top: -150px;
+      background: radial-gradient(circle, #8b5cf6, transparent 70%);
+      animation: float1 18s ease-in-out infinite alternate; }
+    .b2 { width: 500px; height: 500px; right: -100px; top: 25%;
+      background: radial-gradient(circle, #ec4899, transparent 70%);
+      animation: float2 22s ease-in-out infinite alternate; }
+    .b3 { width: 550px; height: 550px; left: 25%; bottom: -200px;
+      background: radial-gradient(circle, #3b82f6, transparent 70%);
+      animation: float1 26s ease-in-out infinite alternate-reverse; }
+    .b4 { width: 300px; height: 300px; right: 20%; bottom: 10%;
+      background: radial-gradient(circle, #06b6d4, transparent 70%);
+      animation: float2 20s ease-in-out infinite alternate-reverse; }
+    @keyframes float1 { from { transform: translate(0,0) scale(1) rotate(0deg); } to { transform: translate(80px,60px) scale(1.15) rotate(20deg); } }
+    @keyframes float2 { from { transform: translate(0,0) scale(1.1); } to { transform: translate(-70px,50px) scale(.95); } }
+    .grid-overlay {
+      position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black, transparent 70%);
     }
 
-    /* ---------- Nav (frosted glass) ---------- */
-    .nav-wrap { position: sticky; top: 0; z-index: 50; padding-top: max(12px, env(safe-area-inset-top)); pointer-events: none; }
+    /* ===== NAV ===== */
+    .nav-wrap { position: sticky; top: 0; z-index: 50; padding-top: max(14px, env(safe-area-inset-top)); pointer-events: none; }
     nav {
-      min-height: 62px; padding: 8px 10px 8px 20px;
-      display: flex; align-items: center; justify-content: space-between; gap: 18px;
-      border: 1px solid var(--line); border-radius: 20px;
-      background: rgba(12,12,14,.55);
-      backdrop-filter: blur(20px) saturate(160%);
-      -webkit-backdrop-filter: blur(20px) saturate(160%);
-      box-shadow: 0 12px 40px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.12);
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      padding: 10px 12px 10px 22px; border-radius: 22px;
+      background: rgba(20,8,40,.6); border: 1px solid var(--line);
+      backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%);
+      box-shadow: 0 16px 50px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.2), 0 0 40px rgba(139,92,246,.15);
       pointer-events: auto;
-      animation: navIn .8s cubic-bezier(.2,.8,.2,1) both;
+      animation: slideDown .9s cubic-bezier(.2,.9,.2,1) both;
     }
-    @keyframes navIn { from { opacity: 0; transform: translateY(-18px); } to { opacity: 1; transform: none; } }
-    .nav-mark { display: flex; align-items: center; gap: 10px; font-family: var(--font-head); font-weight: 800; font-size: 17px; letter-spacing: -.02em; }
-    .nav-logo { width: 30px; height: 30px; border-radius: 8px; display: block; }
-    .nav-links { display: flex; align-items: center; gap: 24px; }
-    .nav-links a { text-decoration: none; font-size: 14px; font-weight: 600; color: var(--muted); transition: color .25s; }
-    .nav-links a:hover { color: var(--text); }
-    .nav-download {
-      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-      min-height: 44px; padding: 0 18px; border-radius: 14px;
-      color: #000 !important; background: #fff;
-      font-weight: 700; font-size: 14px; text-decoration: none;
-      transition: transform .25s, box-shadow .25s;
-      box-shadow: 0 6px 20px rgba(255,255,255,.18);
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-30px) scale(.97); } to { opacity: 1; transform: none; } }
+    .nav-mark { display: flex; align-items: center; gap: 12px; font-family: var(--font-head); font-weight: 900; font-size: 19px; letter-spacing: -.02em; }
+    .nav-logo { width: 34px; height: 34px; border-radius: 10px; box-shadow: 0 0 20px rgba(139,92,246,.5); animation: logoSpin 8s ease-in-out infinite; }
+    @keyframes logoSpin { 0%,100% { transform: rotateY(0deg); } 50% { transform: rotateY(180deg); } }
+    .nav-links { display: flex; align-items: center; gap: 26px; }
+    .nav-links a { text-decoration: none; font-size: 14px; font-weight: 600; color: var(--muted); transition: all .25s; position: relative; }
+    .nav-links a:hover { color: #fff; text-shadow: 0 0 20px rgba(139,92,246,.8); }
+    .nav-cta {
+      min-height: 46px; padding: 0 22px; border-radius: 15px;
+      display: inline-flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      color: #fff !important; font-weight: 800; font-size: 14px; text-decoration: none; font-family: var(--font-head);
+      box-shadow: 0 8px 30px rgba(139,92,246,.5), inset 0 1px 0 rgba(255,255,255,.3);
+      transition: all .3s cubic-bezier(.2,.9,.3,1.4);
     }
-    .nav-download:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(255,255,255,.28); }
+    .nav-cta:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 14px 40px rgba(236,72,153,.6), inset 0 1px 0 rgba(255,255,255,.4); }
 
-    /* ---------- Hero ---------- */
-    .hero { position: relative; margin-top: -74px; padding: 170px 0 90px; overflow: hidden; }
-    .hero-inner { text-align: center; perspective: 1200px; }
-    .brand-logo {
-      width: 92px; height: 92px; border-radius: 24px;
-      box-shadow: 0 24px 60px rgba(0,0,0,.65), 0 0 0 1px var(--line), 0 0 44px rgba(255,255,255,.12);
-      animation: floatY 5s ease-in-out infinite;
-      will-change: transform;
-    }
-    @keyframes floatY { 0%,100% { transform: translateY(0) rotateX(0); } 50% { transform: translateY(-12px) rotateX(6deg); } }
-    .eyebrow {
+    /* ===== HERO (split layout) ===== */
+    .hero { padding: 90px 0 80px; position: relative; }
+    .hero-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 60px; align-items: center; perspective: 1500px; }
+    .hero-badge {
       display: inline-flex; align-items: center; gap: 10px;
-      margin: 26px 0 18px; font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase;
-      color: var(--muted); font-family: var(--font-head);
-    }
-    .eyebrow i { display: block; width: 26px; height: 2px; background: #fff; border-radius: 2px; }
-    h1, h2, h3 { margin: 0; letter-spacing: -.04em; line-height: .98; }
-    h1 {
-      font-size: clamp(64px, 11vw, 150px); font-weight: 800;
-      background: linear-gradient(180deg, #fff 30%, #8a8a8a 100%);
-      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 12px 32px rgba(255,255,255,.12));
-    }
-    .hero-sub { max-width: 620px; margin: 26px auto 0; color: var(--muted); font-size: clamp(16px, 2vw, 20px); line-height: 1.65; font-weight: 400; }
-    .hero-actions { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 36px; flex-wrap: wrap; }
-    .btn {
-      min-height: 58px; padding: 0 28px; display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-      border-radius: 999px; text-decoration: none; font-weight: 700; font-size: 15px; font-family: var(--font-head);
-      border: 1px solid transparent;
-      transition: transform .28s cubic-bezier(.2,.8,.2,1), box-shadow .28s, background .28s;
-      will-change: transform;
-    }
-    .btn-white { background: #fff; color: #000; box-shadow: 0 10px 34px rgba(255,255,255,.22); }
-    .btn-white:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 16px 44px rgba(255,255,255,.32); }
-    .btn-ghost {
-      background: var(--glass); color: #fff; border-color: var(--line);
+      padding: 10px 20px; border-radius: 999px; font-size: 13px; font-weight: 700; font-family: var(--font-head);
+      background: var(--glass); border: 1px solid var(--line);
       backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.18), 0 10px 30px rgba(0,0,0,.4);
-    }
-    .btn-ghost:hover { transform: translateY(-3px) scale(1.02); background: rgba(255,255,255,.14); box-shadow: inset 0 1px 0 rgba(255,255,255,.25), 0 16px 40px rgba(0,0,0,.5); }
-    .btn svg { width: 18px; height: 18px; }
-    .btn:active { transform: translateY(0) scale(.98); }
-    .dl-note { margin-top: 16px; font-size: 12px; font-weight: 600; color: var(--muted); letter-spacing: .05em; }
-
-    /* ---------- 3D device stage ---------- */
-    .stage {
-      position: relative; margin-top: 70px;
-      display: flex; align-items: flex-end; justify-content: center; gap: 34px;
-      perspective: 1400px;
-    }
-    .stage-tilt { display: flex; align-items: flex-end; justify-content: center; gap: 34px; transform-style: preserve-3d; transition: transform .35s ease-out; will-change: transform; }
-    .tv {
-      width: min(640px, 92%); aspect-ratio: 16/9; border-radius: 26px;
-      background: rgba(8,8,10,.72); border: 1px solid var(--line);
-      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-      box-shadow: 0 34px 90px rgba(0,0,0,.65), inset 0 1px 0 rgba(255,255,255,.15), inset 0 0 0 8px rgba(0,0,0,.6);
-      padding: 26px; position: relative; overflow: hidden;
-      transform: translateZ(30px);
-      animation: stageIn 1s cubic-bezier(.2,.8,.2,1) .25s both;
-    }
-    @keyframes stageIn { from { opacity: 0; transform: translateZ(30px) translateY(46px); } to { opacity: 1; transform: translateZ(30px) translateY(0); } }
-    .tv::after {
-      content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
-      background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,.09) 45%, transparent 60%);
-    }
-    .tv-stand { width: 120px; height: 10px; margin: 0 auto; background: #1c1c1c; border-radius: 0 0 10px 10px; box-shadow: 0 14px 30px rgba(0,0,0,.6); }
-    .tv-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
-    .tv-title { font-family: var(--font-head); font-weight: 700; font-size: 20px; letter-spacing: -.02em; }
-    .tv-search { width: 150px; height: 30px; border-radius: 999px; background: rgba(255,255,255,.08); border: 1px solid var(--line); }
-    .poster-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
-    .poster {
-      aspect-ratio: 2/3; border-radius: 10px; border: 1px solid var(--line);
-      display: flex; align-items: flex-end; padding: 8px;
-      font-size: 9px; font-weight: 700; color: rgba(255,255,255,.85); font-family: var(--font-head);
-      transition: transform .3s cubic-bezier(.2,.8,.2,1), box-shadow .3s;
-      box-shadow: 0 8px 22px rgba(0,0,0,.45);
-    }
-    .poster:hover { transform: translateY(-6px) scale(1.04); box-shadow: 0 16px 34px rgba(0,0,0,.55), 0 0 20px rgba(255,255,255,.1); }
-    .poster.p1 { background: linear-gradient(160deg, #3d3d3d, #0d0d0d); }
-    .poster.p2 { background: linear-gradient(160deg, #585858, #141414); }
-    .poster.p3 { background: linear-gradient(160deg, #2b2b2b, #000); }
-    .poster.p4 { background: linear-gradient(160deg, #4c4c4c, #101010); }
-    .poster.p5 { background: linear-gradient(160deg, #363636, #080808); }
-    .phone {
-      width: 190px; flex: 0 0 auto; border-radius: 34px; padding: 10px;
-      background: rgba(5,5,6,.85); border: 1px solid var(--line);
-      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-      box-shadow: 0 30px 70px rgba(0,0,0,.65), inset 0 1px 0 rgba(255,255,255,.14);
-      transform: translateZ(70px);
-      animation: stageIn 1s cubic-bezier(.2,.8,.2,1) .4s both, phoneFloat 6s ease-in-out 1.4s infinite;
-    }
-    @keyframes phoneFloat { 0%,100% { translate: 0 0; } 50% { translate: 0 -10px; } }
-    .phone-screen { border-radius: 26px; background: rgba(10,10,12,.9); overflow: hidden; padding: 14px 12px 12px; }
-    .phone-island { width: 64px; height: 18px; border-radius: 999px; background: #000; margin: 0 auto 12px; border: 1px solid rgba(255,255,255,.08); }
-    .phone-title { font-family: var(--font-head); font-size: 13px; font-weight: 700; margin-bottom: 10px; }
-    .glass-btn {
-      height: 34px; border-radius: 999px; margin-bottom: 10px;
-      background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.22);
-      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
       box-shadow: inset 0 1px 0 rgba(255,255,255,.2);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 10px; font-weight: 700; letter-spacing: .06em; font-family: var(--font-head);
+      animation: fadeUp 1s .1s cubic-bezier(.2,.9,.2,1) both;
     }
-    .glass-slider { height: 5px; border-radius: 4px; background: rgba(255,255,255,.14); margin: 12px 0 4px; overflow: hidden; }
-    .glass-slider i { display: block; width: 58%; height: 100%; background: linear-gradient(90deg, #fff, #bbb); border-radius: inherit; animation: slidePulse 3s ease-in-out infinite; }
-    @keyframes slidePulse { 0%,100% { width: 58%; } 50% { width: 72%; } }
-    .phone-row { display: flex; gap: 8px; margin-top: 10px; }
-    .phone-poster { flex: 1; aspect-ratio: 2/3; border-radius: 8px; border: 1px solid var(--line); }
+    .hero-badge .dot { width: 10px; height: 10px; border-radius: 50%; background: linear-gradient(135deg, #4ade80, #22d3ee); box-shadow: 0 0 12px #4ade80; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.3); opacity: .7; } }
+    .hero h1 {
+      font-size: clamp(58px, 8vw, 110px); font-weight: 900; line-height: .95; letter-spacing: -.04em;
+      margin: 28px 0 0;
+      background: linear-gradient(120deg, #fff 20%, #c4b5fd 40%, #f9a8d4 60%, #93c5fd 80%, #fff 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+      animation: shine 6s linear infinite, fadeUp 1s .2s cubic-bezier(.2,.9,.2,1) both;
+      filter: drop-shadow(0 10px 40px rgba(139,92,246,.3));
+    }
+    @keyframes shine { to { background-position: 200% center; } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: none; } }
+    .hero-sub { margin: 26px 0 0; color: var(--muted); font-size: clamp(16px, 2vw, 19px); line-height: 1.7; max-width: 480px; animation: fadeUp 1s .3s cubic-bezier(.2,.9,.2,1) both; }
+    .hero-actions { display: flex; gap: 14px; margin-top: 36px; flex-wrap: wrap; animation: fadeUp 1s .4s cubic-bezier(.2,.9,.2,1) both; }
+    .btn {
+      min-height: 60px; padding: 0 30px; border-radius: 999px;
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      font-family: var(--font-head); font-weight: 800; font-size: 15px; text-decoration: none;
+      transition: all .3s cubic-bezier(.2,.9,.3,1.3); will-change: transform;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--purple), var(--pink), var(--blue));
+      background-size: 200% 200%; color: #fff; border: none;
+      box-shadow: 0 12px 40px rgba(139,92,246,.5), inset 0 1px 0 rgba(255,255,255,.35);
+      animation: gradientShift 4s ease infinite;
+    }
+    @keyframes gradientShift { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+    .btn-primary:hover { transform: translateY(-4px) scale(1.04) rotate(-1deg); box-shadow: 0 20px 55px rgba(236,72,153,.6); }
+    .btn-glass {
+      background: var(--glass); color: #fff; border: 1px solid var(--line);
+      backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.22), 0 12px 35px rgba(0,0,0,.4);
+    }
+    .btn-glass:hover { transform: translateY(-4px) scale(1.04) rotate(1deg); background: rgba(255,255,255,.14); box-shadow: 0 18px 45px rgba(139,92,246,.35); }
+    .btn svg { width: 19px; height: 19px; }
+    .btn:active { transform: scale(.96); }
+    .hero-stats { display: flex; gap: 36px; margin-top: 44px; animation: fadeUp 1s .5s cubic-bezier(.2,.9,.2,1) both; }
+    .stat b { display: block; font-family: var(--font-head); font-size: 28px; font-weight: 800; background: linear-gradient(135deg, #fbbf24, #f97316); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+    .stat span { font-size: 12px; color: var(--muted); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
 
-    /* ---------- Scroll reveal ---------- */
-    .reveal { opacity: 0; transform: translateY(34px); transition: opacity .8s cubic-bezier(.2,.8,.2,1), transform .8s cubic-bezier(.2,.8,.2,1); }
+    /* 3D hero visual */
+    .hero-visual { position: relative; transform-style: preserve-3d; animation: fadeUp 1.1s .35s cubic-bezier(.2,.9,.2,1) both; }
+    .hero-tv {
+      border-radius: 30px; padding: 28px; position: relative;
+      background: rgba(15,5,30,.7); border: 1px solid var(--line);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 40px 100px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.2), 0 0 80px rgba(139,92,246,.25);
+      transform: rotateY(-12deg) rotateX(6deg);
+      transition: transform .5s ease; will-change: transform;
+    }
+    .hero-visual:hover .hero-tv { transform: rotateY(0deg) rotateX(0deg) scale(1.02); }
+    .hero-tv::before {
+      content: ""; position: absolute; inset: -2px; border-radius: 32px; z-index: -1;
+      background: linear-gradient(135deg, var(--purple), var(--pink), var(--blue), var(--cyan));
+      background-size: 300% 300%; animation: gradientShift 5s ease infinite;
+      filter: blur(2px); opacity: .7;
+    }
+    .tv-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .tv-bar b { font-family: var(--font-head); font-size: 20px; }
+    .tv-bar .live { font-size: 11px; font-weight: 800; padding: 6px 14px; border-radius: 999px; background: linear-gradient(135deg, #ef4444, #f97316); box-shadow: 0 0 20px rgba(239,68,68,.6); animation: pulse 2s infinite; font-family: var(--font-head); letter-spacing: .08em; }
+    .poster-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    .poster {
+      aspect-ratio: 2/3; border-radius: 14px; position: relative; overflow: hidden;
+      display: flex; align-items: flex-end; padding: 10px;
+      font-family: var(--font-head); font-size: 10px; font-weight: 700;
+      transition: all .35s cubic-bezier(.2,.9,.3,1.4);
+      box-shadow: 0 12px 30px rgba(0,0,0,.5);
+      animation: posterFloat 5s ease-in-out infinite;
+    }
+    .poster:nth-child(2) { animation-delay: -1.2s; } .poster:nth-child(3) { animation-delay: -2.4s; } .poster:nth-child(4) { animation-delay: -3.6s; }
+    @keyframes posterFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+    .poster:hover { transform: translateY(-10px) scale(1.08) rotate(-2deg) !important; box-shadow: 0 20px 45px rgba(139,92,246,.45); z-index: 2; }
+    .poster.c1 { background: linear-gradient(160deg, #8b5cf6, #4c1d95); }
+    .poster.c2 { background: linear-gradient(160deg, #ec4899, #831843); }
+    .poster.c3 { background: linear-gradient(160deg, #3b82f6, #1e3a8a); }
+    .poster.c4 { background: linear-gradient(160deg, #06b6d4, #164e63); }
+    .float-chip {
+      position: absolute; padding: 14px 20px; border-radius: 18px;
+      background: rgba(20,10,40,.75); border: 1px solid var(--line);
+      backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+      box-shadow: 0 18px 45px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.2);
+      font-family: var(--font-head); font-weight: 700; font-size: 13px;
+      display: flex; align-items: center; gap: 10px;
+      animation: chipFloat 4s ease-in-out infinite; z-index: 3;
+    }
+    .chip1 { top: -24px; right: 8%; }
+    .chip2 { bottom: -20px; left: 6%; animation-delay: -2s; }
+    @keyframes chipFloat { 0%,100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-12px) rotate(2deg); } }
+    .float-chip .emoji { font-size: 20px; }
+
+    /* ===== MARQUEE ===== */
+    .marquee { overflow: hidden; padding: 26px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: rgba(139,92,246,.06); position: relative; z-index: 2; }
+    .marquee-track { display: flex; gap: 48px; width: max-content; animation: scroll 22s linear infinite; }
+    .marquee-track span { font-family: var(--font-head); font-weight: 800; font-size: 20px; letter-spacing: .06em; white-space: nowrap; background: linear-gradient(90deg, #c4b5fd, #f9a8d4, #93c5fd); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+    @keyframes scroll { to { transform: translateX(-50%); } }
+
+    /* ===== SECTIONS ===== */
+    section.block { padding: 100px 0; position: relative; }
+    .sec-tag { display: inline-block; font-family: var(--font-head); font-size: 12px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; padding: 8px 18px; border-radius: 999px; background: linear-gradient(135deg, rgba(139,92,246,.25), rgba(236,72,153,.25)); border: 1px solid rgba(139,92,246,.4); color: #e9d5ff; margin-bottom: 20px; }
+    .section-head h2 { font-size: clamp(36px, 5vw, 62px); font-weight: 900; letter-spacing: -.03em; line-height: 1.05; }
+    .section-head h2 .grad { background: linear-gradient(120deg, var(--purple), var(--pink), var(--blue)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+    .section-head p { color: var(--muted); font-size: 17px; line-height: 1.7; max-width: 620px; margin: 18px 0 0; }
+    .section-head { margin-bottom: 54px; }
+
+    /* Bento feature grid */
+    .bento { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; perspective: 1400px; }
+    .bcard {
+      padding: 36px 32px; border-radius: var(--radius); position: relative; overflow: hidden;
+      background: var(--glass); border: 1px solid var(--line);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 20px 55px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.18);
+      transition: all .4s cubic-bezier(.2,.9,.3,1.2);
+      transform-style: preserve-3d;
+    }
+    .bcard::before { content: ""; position: absolute; inset: 0; opacity: 0; transition: opacity .4s; background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(139,92,246,.25), transparent 70%); }
+    .bcard:hover { transform: translateY(-10px) rotateX(6deg) rotateY(-6deg) scale(1.02); border-color: rgba(139,92,246,.5); box-shadow: 0 35px 80px rgba(0,0,0,.55), 0 0 50px rgba(139,92,246,.25); }
+    .bcard:hover::before { opacity: 1; }
+    .bcard.big { grid-column: span 2; }
+    .bicon {
+      width: 58px; height: 58px; border-radius: 18px; display: grid; place-items: center; margin-bottom: 24px;
+      color: #fff; transform: translateZ(30px);
+      box-shadow: 0 12px 30px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.4);
+      animation: iconBob 4s ease-in-out infinite;
+    }
+    @keyframes iconBob { 0%,100% { transform: translateZ(30px) translateY(0); } 50% { transform: translateZ(30px) translateY(-6px); } }
+    .bicon svg { width: 26px; height: 26px; }
+    .bi1 { background: linear-gradient(135deg, #8b5cf6, #6d28d9); }
+    .bi2 { background: linear-gradient(135deg, #ec4899, #be185d); }
+    .bi3 { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+    .bi4 { background: linear-gradient(135deg, #06b6d4, #0e7490); }
+    .bi5 { background: linear-gradient(135deg, #f59e0b, #b45309); }
+    .bi6 { background: linear-gradient(135deg, #10b981, #047857); }
+    .bcard h3 { font-size: 22px; margin-bottom: 12px; transform: translateZ(15px); }
+    .bcard p { margin: 0; color: var(--muted); font-size: 14.5px; line-height: 1.7; }
+
+    /* Scroll reveal */
+    .reveal { opacity: 0; transform: translateY(50px) scale(.97); transition: all .9s cubic-bezier(.2,.9,.2,1); }
     .reveal.visible { opacity: 1; transform: none; }
+    .reveal.d1 { transition-delay: .1s; } .reveal.d2 { transition-delay: .2s; } .reveal.d3 { transition-delay: .3s; }
 
-    /* ---------- Sections ---------- */
-    section.block { padding: 96px 0; position: relative; }
-    .section-head { max-width: 760px; margin-bottom: 52px; }
-    .section-head h2 { font-size: clamp(38px, 5vw, 64px); font-weight: 800; }
-    .section-head p { margin: 18px 0 0; color: var(--muted); font-size: 17px; line-height: 1.7; }
+    /* ===== DOWNLOAD ===== */
+    .dl-panel {
+      border-radius: 40px; padding: 90px 40px; text-align: center; position: relative; overflow: hidden;
+      background: rgba(20,8,40,.6); border: 1px solid var(--line);
+      backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+      box-shadow: 0 40px 100px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.2), 0 0 100px rgba(139,92,246,.2);
+    }
+    .dl-panel::before { content: ""; position: absolute; inset: -50%; background: conic-gradient(from 0deg, transparent, rgba(139,92,246,.15), transparent, rgba(236,72,153,.15), transparent); animation: spin 12s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .dl-inner { position: relative; z-index: 1; }
+    .dl-panel h2 { font-size: clamp(42px, 6vw, 78px); font-weight: 900; letter-spacing: -.03em; }
+    .dl-panel h2 .grad { background: linear-gradient(120deg, #fbbf24, #f97316, #ec4899); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+    .dl-panel > .dl-inner > p { color: var(--muted); max-width: 540px; margin: 22px auto 0; font-size: 17px; line-height: 1.7; }
+    .dl-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 40px; }
+    .dl-note { margin-top: 26px !important; font-size: 13px !important; font-weight: 700; color: #a78bfa !important; letter-spacing: .06em; }
 
-    /* Glass feature cards with 3D tilt */
-    .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; perspective: 1200px; }
-    .feature {
-      padding: 32px; border-radius: var(--radius);
+    /* ===== GUIDE ===== */
+    .steps { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    .step {
+      padding: 34px 30px; border-radius: var(--radius);
       background: var(--glass); border: 1px solid var(--line);
       backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
-      box-shadow: 0 18px 50px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.14);
-      transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s, border-color .35s;
-      transform-style: preserve-3d; will-change: transform;
+      box-shadow: 0 18px 50px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.15);
+      transition: all .35s cubic-bezier(.2,.9,.3,1.2); position: relative; overflow: hidden;
     }
-    .feature:hover {
-      transform: translateY(-8px) rotateX(4deg) rotateY(-4deg);
-      border-color: rgba(255,255,255,.3);
-      box-shadow: 0 30px 70px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.22), 0 0 34px rgba(255,255,255,.07);
+    .step:hover { transform: translateY(-8px) scale(1.02); border-color: rgba(139,92,246,.5); box-shadow: 0 28px 65px rgba(0,0,0,.5), 0 0 40px rgba(139,92,246,.2); }
+    .step-num {
+      font-family: var(--font-head); font-size: 64px; font-weight: 900; line-height: 1;
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+      opacity: .9; margin-bottom: 18px;
     }
-    .feature-icon {
-      width: 50px; height: 50px; border-radius: 15px; display: grid; place-items: center;
-      background: linear-gradient(145deg, #fff, #c9c9c9); color: #000; margin-bottom: 22px;
-      box-shadow: 0 10px 26px rgba(255,255,255,.2), inset 0 1px 0 rgba(255,255,255,.6);
-      transform: translateZ(24px);
-    }
-    .feature-icon svg { width: 22px; height: 22px; }
-    .feature h3 { font-size: 21px; margin-bottom: 10px; letter-spacing: -.02em; transform: translateZ(12px); }
-    .feature p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.65; }
-    .feature.wide { grid-column: span 2; display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; }
-    .glass-demo { display: flex; flex-direction: column; gap: 10px; width: 210px; transform: translateZ(18px); }
+    .step h3 { font-size: 20px; margin-bottom: 10px; }
+    .step p { color: var(--muted); margin: 0; font-size: 14.5px; line-height: 1.7; }
+    .step .url { margin-top: 14px !important; padding: 14px 16px; border-radius: 14px; background: rgba(0,0,0,.6); border: 1px solid rgba(139,92,246,.35); color: #e9d5ff !important; font-family: monospace; font-size: 13.5px !important; word-break: break-all; user-select: all; }
 
-    /* ---------- Screenshots ---------- */
-    .shots { display: grid; grid-template-columns: 1.2fr .8fr; gap: 26px; align-items: stretch; perspective: 1200px; }
-    .shot-card {
-      border-radius: 30px; border: 1px solid var(--line);
-      background: var(--glass); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
-      box-shadow: 0 20px 60px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.14);
-      padding: 34px; overflow: hidden; position: relative;
-      transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s;
-    }
-    .shot-card:hover { transform: translateY(-6px); box-shadow: 0 32px 80px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.2); }
-    .shot-card h3 { font-size: 24px; margin-bottom: 8px; }
-    .shot-card > p { color: var(--muted); font-size: 14px; margin: 0 0 26px; line-height: 1.6; }
-    .shot-tv { aspect-ratio: 16/9; border-radius: 18px; background: rgba(0,0,0,.6); border: 1px solid var(--line); padding: 20px; box-shadow: inset 0 0 40px rgba(0,0,0,.5); }
-    .shot-phone-wrap { display: flex; justify-content: center; }
-    .badge {
-      display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
-      color: #000; background: linear-gradient(145deg, #fff, #d4d4d4); border-radius: 999px; padding: 6px 14px; margin-bottom: 14px;
-      font-family: var(--font-head); box-shadow: 0 6px 18px rgba(255,255,255,.2);
-    }
-
-    /* ---------- Download panel ---------- */
-    .download-panel {
-      border-radius: 36px; border: 1px solid var(--line);
-      background: rgba(14,14,16,.55);
+    /* ===== ABOUT ===== */
+    .about-card {
+      text-align: center; padding: 80px 40px; border-radius: 40px;
+      background: linear-gradient(135deg, rgba(139,92,246,.14), rgba(236,72,153,.1), rgba(59,130,246,.12));
+      border: 1px solid var(--line);
       backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px);
-      box-shadow: 0 30px 90px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.16);
-      padding: 76px 40px; text-align: center; position: relative; overflow: hidden;
+      box-shadow: 0 30px 80px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.2);
+      position: relative; overflow: hidden;
     }
-    .download-panel::before {
-      content: "▶"; position: absolute; right: 6%; bottom: -70px;
-      font-size: 260px; color: rgba(255,255,255,.045); transform: rotate(8deg);
-    }
-    .download-panel::after {
-      content: ""; position: absolute; inset: 0; pointer-events: none;
-      background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(255,255,255,.08), transparent 70%);
-    }
-    .download-panel h2 { font-size: clamp(40px, 6vw, 76px); font-weight: 800; position: relative; z-index: 1; }
-    .download-panel p { color: var(--muted); max-width: 560px; margin: 20px auto 0; font-size: 16px; line-height: 1.7; position: relative; z-index: 1; }
-    .download-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 32px; position: relative; z-index: 1; }
-
-    /* ---------- Setup guide ---------- */
-    .guide-steps { display: grid; gap: 16px; max-width: 760px; }
-    .guide-step {
-      display: flex; gap: 20px; align-items: flex-start;
+    .about-logo { width: 110px; height: 110px; border-radius: 30px; box-shadow: 0 0 60px rgba(139,92,246,.5), 0 24px 60px rgba(0,0,0,.5); animation: logoFloat 5s ease-in-out infinite; }
+    @keyframes logoFloat { 0%,100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-14px) rotate(3deg); } }
+    .about-card h2 { font-size: clamp(34px, 4.5vw, 56px); font-weight: 900; margin-top: 28px; }
+    .about-card h2 .grad { background: linear-gradient(120deg, #fbbf24, #ec4899, #8b5cf6); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+    .about-card p { color: var(--muted); max-width: 560px; margin: 20px auto 0; line-height: 1.75; font-size: 16.5px; }
+    .socials { display: flex; gap: 14px; justify-content: center; margin-top: 34px; flex-wrap: wrap; }
+    .soc {
+      display: inline-flex; align-items: center; gap: 10px; padding: 16px 28px; border-radius: 999px;
+      text-decoration: none; font-family: var(--font-head); font-weight: 800; font-size: 15px;
       background: var(--glass); border: 1px solid var(--line);
       backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-      box-shadow: 0 14px 40px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.12);
-      border-radius: 20px; padding: 24px;
-      transition: transform .3s cubic-bezier(.2,.8,.2,1), border-color .3s;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 12px 32px rgba(0,0,0,.4);
+      transition: all .3s cubic-bezier(.2,.9,.3,1.4);
     }
-    .guide-step:hover { transform: translateX(8px); border-color: rgba(255,255,255,.28); }
-    .guide-num {
-      flex: 0 0 48px; width: 48px; height: 48px; border-radius: 50%;
-      background: linear-gradient(145deg, #fff, #cfcfcf); color: #000;
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 800; font-size: 20px; font-family: var(--font-head);
-      box-shadow: 0 8px 22px rgba(255,255,255,.2);
-    }
-    .guide-step h3 { font-size: 19px; margin: 0 0 8px; }
-    .guide-step p { color: var(--muted); margin: 0; font-size: 15px; line-height: 1.7; }
-    .guide-url {
-      margin-top: 10px !important; padding: 12px 16px; border-radius: 12px;
-      background: rgba(0,0,0,.65); border: 1px solid var(--line);
-      color: #fff !important; font-family: monospace; font-size: 14px !important;
-      word-break: break-all; user-select: all;
-    }
+    .soc:hover { transform: translateY(-4px) scale(1.06) rotate(-2deg); box-shadow: 0 18px 45px rgba(236,72,153,.4); border-color: rgba(236,72,153,.5); }
+    .soc.yt:hover { border-color: rgba(239,68,68,.6); box-shadow: 0 18px 45px rgba(239,68,68,.4); }
+    .soc.ig:hover { border-color: rgba(139,92,246,.6); box-shadow: 0 18px 45px rgba(139,92,246,.4); }
+    .soc svg { width: 20px; height: 20px; }
 
-    /* ---------- About / socials ---------- */
-    .about { text-align: center; }
-    .about .brand-logo { margin: 0 auto; }
-    .about h2 { font-size: clamp(32px, 4vw, 52px); margin-top: 22px; }
-    .about p { color: var(--muted); max-width: 560px; margin: 16px auto 0; line-height: 1.7; font-size: 16px; }
-    .socials { display: flex; gap: 12px; justify-content: center; margin-top: 28px; flex-wrap: wrap; }
-    .social-btn {
-      display: inline-flex; align-items: center; gap: 10px;
-      padding: 14px 24px; border-radius: 999px; text-decoration: none;
-      background: var(--glass); border: 1px solid var(--line);
-      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.14), 0 10px 28px rgba(0,0,0,.4);
-      font-weight: 700; font-size: 14px; font-family: var(--font-head);
-      transition: transform .28s cubic-bezier(.2,.8,.2,1), background .28s, box-shadow .28s;
-    }
-    .social-btn:hover { transform: translateY(-3px) scale(1.03); background: rgba(255,255,255,.14); box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 16px 38px rgba(0,0,0,.5); }
-    .social-btn svg { width: 18px; height: 18px; }
+    footer { border-top: 1px solid var(--line); padding: 36px 0 max(36px, env(safe-area-inset-bottom)); position: relative; z-index: 2; background: rgba(10,0,20,.6); backdrop-filter: blur(12px); }
+    .frow { display: flex; justify-content: space-between; align-items: center; gap: 18px; flex-wrap: wrap; }
+    .frow strong { font-family: var(--font-head); font-size: 18px; background: linear-gradient(120deg, #c4b5fd, #f9a8d4); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+    .frow span { display: block; margin-top: 8px; color: var(--muted); font-size: 12.5px; line-height: 1.6; }
+    .frow .tag { font-size: 12px; color: var(--muted); font-weight: 600; }
 
-    /* ---------- Footer ---------- */
-    footer { border-top: 1px solid var(--line); padding: 34px 0 max(34px, env(safe-area-inset-bottom)); position: relative; z-index: 2; }
-    .footer-row { display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap; }
-    .footer-copy strong { font-family: var(--font-head); font-size: 16px; letter-spacing: -.01em; }
-    .footer-copy span { display: block; margin-top: 6px; color: var(--muted); font-size: 12px; line-height: 1.6; max-width: 520px; }
-    .footer-note { color: var(--muted); font-size: 12px; }
-
-    /* ---------- Reduced motion ---------- */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
       .reveal { opacity: 1; transform: none; }
     }
-
     @media (max-width: 960px) {
-      .nav-links a:not(.nav-download) { display: none; }
-      .feature-grid { grid-template-columns: 1fr 1fr; }
-      .feature.wide { grid-column: span 2; }
-      .shots { grid-template-columns: 1fr; }
-      .stage { flex-direction: column; align-items: center; }
-      .stage-tilt { flex-direction: column; align-items: center; }
-      .phone { order: -1; }
+      .nav-links a:not(.nav-cta) { display: none; }
+      .hero-grid { grid-template-columns: 1fr; gap: 50px; }
+      .hero { padding: 60px 0; }
+      .bento { grid-template-columns: 1fr 1fr; }
+      .bcard.big { grid-column: span 2; }
+      .steps { grid-template-columns: 1fr; }
     }
     @media (max-width: 620px) {
-      .wrap { width: min(100% - 28px, 1180px); }
-      nav { min-height: 56px; padding: 6px 7px 6px 14px; border-radius: 16px; }
-      .nav-mark span { display: none; }
-      .hero { margin-top: -65px; padding: 140px 0 70px; }
+      .wrap { width: min(100% - 28px, 1200px); }
+      .bento { grid-template-columns: 1fr; }
+      .bcard.big { grid-column: auto; }
       .hero-actions { flex-direction: column; align-items: stretch; }
       .btn { width: 100%; }
+      .dl-panel, .about-card { padding: 56px 24px; border-radius: 30px; }
+      .hero-stats { gap: 24px; }
+      .poster-row { grid-template-columns: repeat(2, 1fr); }
       section.block { padding: 72px 0; }
-      .feature-grid { grid-template-columns: 1fr; }
-      .feature.wide { grid-column: auto; grid-template-columns: 1fr; }
-      .download-panel { padding: 52px 24px; border-radius: 26px; }
-      .poster-grid { grid-template-columns: repeat(3, 1fr); }
-      .poster:nth-child(n+4) { display: none; }
-      .tv { padding: 16px; }
-      .footer-row { align-items: flex-start; flex-direction: column; }
     }
   </style>
 </head>
 <body>
-  <div class="orbs" aria-hidden="true">
-    <div class="orb o1"></div>
-    <div class="orb o2"></div>
-    <div class="orb o3"></div>
+  <div class="bg-fx" aria-hidden="true">
+    <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div><div class="blob b4"></div>
+    <div class="grid-overlay"></div>
   </div>
 
   <div class="nav-wrap wrap">
-    <nav aria-label="Primary navigation">
-      <div class="nav-mark">
-        <img class="nav-logo" src="raitv-icon.webp" alt="RAI TV logo" />
-        <span>RAI TV</span>
-      </div>
+    <nav aria-label="Primary">
+      <div class="nav-mark"><img class="nav-logo" src="raitv-icon.webp" alt="RAI TV" /><span>RAI TV</span></div>
       <div class="nav-links">
         <a href="#features">Features</a>
-        <a href="#screens">Screens</a>
+        <a href="#download">Download</a>
         <a href="#guide">Guide</a>
         <a href="#about">About</a>
-        <a class="nav-download" href="#download">Download</a>
+        <a class="nav-cta" href="#download">Get the App</a>
       </div>
     </nav>
   </div>
 
   <header class="hero">
-    <div class="wrap hero-inner">
-      <img class="brand-logo" src="raitv-icon.webp" alt="RAI TV app icon" />
-      <div class="eyebrow"><i></i>Android TV &amp; Phone<i></i></div>
-      <h1>RAI TV</h1>
-      <p class="hero-sub">Your movies &amp; shows, beautifully organized on TV and phone. A premium black &amp; white experience, made for the big screen in your living room.</p>
-      <div class="hero-actions">
-        <a class="btn btn-white" href="#download">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="m17 2-5 5-5-5"/></svg>
-          TV Version
-        </a>
-        <a class="btn btn-ghost" href="#download">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg>
-          Phone Version
-        </a>
+    <div class="wrap hero-grid">
+      <div>
+        <div class="hero-badge"><span class="dot"></span>v1.0 LIVE &nbsp;·&nbsp; Android TV + Phone</div>
+        <h1>RAI TV</h1>
+        <p class="hero-sub">Your movies &amp; shows, beautifully organized. A cinematic library with artwork, ratings &amp; subtitles — on your TV and in your pocket.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#download">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>
+            Download Free
+          </a>
+          <a class="btn btn-glass" href="https://smartcric.is/" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+            Live Cricket
+          </a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat"><b>2</b><span>Editions</span></div>
+          <div class="stat"><b>100%</b><span>Free</span></div>
+          <div class="stat"><b>0</b><span>Ads in App</span></div>
+        </div>
       </div>
-      <p class="dl-note">APK download links coming soon</p>
-
-      <div class="stage" id="stage" aria-hidden="true">
-        <div class="stage-tilt" id="stageTilt">
-          <div>
-            <div class="tv">
-              <div class="tv-row">
-                <div class="tv-title">Continue Watching</div>
-                <div class="tv-search"></div>
-              </div>
-              <div class="poster-grid">
-                <div class="poster p1"><span>Featured</span></div>
-                <div class="poster p2"><span>Trending</span></div>
-                <div class="poster p3"><span>New</span></div>
-                <div class="poster p4"><span>Top 10</span></div>
-                <div class="poster p5"><span>For You</span></div>
-              </div>
-            </div>
-            <div class="tv-stand"></div>
-          </div>
-          <div class="phone">
-            <div class="phone-screen">
-              <div class="phone-island"></div>
-              <div class="phone-title">RAI TV</div>
-              <div class="glass-btn">PLAY</div>
-              <div class="glass-btn">+ MY LIST</div>
-              <div class="glass-slider"><i></i></div>
-              <div class="phone-row">
-                <div class="phone-poster p1 poster"></div>
-                <div class="phone-poster p2 poster"></div>
-                <div class="phone-poster p3 poster"></div>
-              </div>
-            </div>
+      <div class="hero-visual" id="heroVisual">
+        <div class="hero-tv" id="heroTv">
+          <div class="tv-bar"><b>Continue Watching</b><span class="live">● LIVE</span></div>
+          <div class="poster-row">
+            <div class="poster c1"><span>Featured</span></div>
+            <div class="poster c2"><span>Trending</span></div>
+            <div class="poster c3"><span>Top 10</span></div>
+            <div class="poster c4"><span>For You</span></div>
           </div>
         </div>
+        <div class="float-chip chip1"><span class="emoji">🍿</span>Movie Night Ready</div>
+        <div class="float-chip chip2"><span class="emoji">⚡</span>Super Smooth</div>
       </div>
     </div>
   </header>
 
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>✦ MOVIES</span><span>✦ SHOWS</span><span>✦ LIVE CRICKET</span><span>✦ SUBTITLES</span><span>✦ 4K ARTWORK</span><span>✦ CONTINUE WATCHING</span>
+      <span>✦ MOVIES</span><span>✦ SHOWS</span><span>✦ LIVE CRICKET</span><span>✦ SUBTITLES</span><span>✦ 4K ARTWORK</span><span>✦ CONTINUE WATCHING</span>
+    </div>
+  </div>
+
   <section class="block" id="features">
     <div class="wrap">
       <div class="section-head reveal">
-        <h2>Everything your watchlist needs.</h2>
-        <p>RAI TV turns your sources into a clean, cinematic library — with artwork, ratings and subtitles, in a pure black &amp; white design.</p>
+        <div class="sec-tag">Features</div>
+        <h2>Everything you love,<br /><span class="grad">beautifully organized.</span></h2>
+        <p>RAI TV turns your sources into a premium streaming experience — with stunning artwork, smart continue-watching and subtitles in every language.</p>
       </div>
-      <div class="feature-grid">
-        <div class="feature wide reveal">
-          <div>
-            <div class="feature-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="m17 2-5 5-5-5"/></svg>
-            </div>
-            <h3>Made for the big screen</h3>
-            <p>Built for Android TV with a remote-friendly interface. Browse your library from the couch — smooth, fast and distraction-free.</p>
-          </div>
-          <div class="glass-demo" aria-hidden="true">
-            <div class="glass-btn">BROWSE</div>
-            <div class="glass-btn">SEARCH</div>
-            <div class="glass-slider"><i></i></div>
-          </div>
+      <div class="bento">
+        <div class="bcard big reveal">
+          <div class="bicon bi1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="7" width="20" height="14" rx="3"/><path d="m17 2-5 5-5-5"/></svg></div>
+          <h3>Made for the Big Screen</h3>
+          <p>Remote-friendly Android TV interface. Browse your entire library from the couch — buttery smooth, even on low-RAM TVs. Big artwork, zero clutter, pure cinema.</p>
         </div>
-        <div class="feature reveal">
-          <div class="feature-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-          </div>
-          <h3>Library with artwork</h3>
-          <p>Posters, ratings and rich metadata — your collection looks like a premium streaming service.</p>
+        <div class="bcard reveal d1">
+          <div class="bicon bi2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M9 21V9"/></svg></div>
+          <h3>Rich Artwork</h3>
+          <p>Posters, ratings &amp; metadata — like a premium streaming service.</p>
         </div>
-        <div class="feature reveal">
-          <div class="feature-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2-2z"/></svg>
-          </div>
-          <h3>Subtitles included</h3>
-          <p>Automatic subtitle support so you never miss a dialogue, in any language.</p>
+        <div class="bcard reveal">
+          <div class="bicon bi3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+          <h3>Subtitles</h3>
+          <p>Never miss a dialogue, in any language.</p>
         </div>
-        <div class="feature reveal">
-          <div class="feature-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-          </div>
-          <h3>Continue watching</h3>
-          <p>Your place is saved on every screen. Start on the phone, finish on the TV.</p>
+        <div class="bcard reveal d1">
+          <div class="bicon bi4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+          <h3>Continue Watching</h3>
+          <p>Start on phone, finish on TV. Your place is always saved.</p>
         </div>
-        <div class="feature reveal">
-          <div class="feature-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg>
-          </div>
-          <h3>Liquid-glass UI on phone</h3>
-          <p>The phone version gets the signature liquid-glass buttons and sliders — smooth and premium.</p>
+        <div class="bcard reveal d2">
+          <div class="bicon bi5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="7" y="2" width="10" height="20" rx="3"/><path d="M11 18h2"/></svg></div>
+          <h3>Liquid Glass Phone UI</h3>
+          <p>Signature frosted-glass buttons &amp; sliders on the phone edition.</p>
         </div>
-        <div class="feature reveal">
-          <div class="feature-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-          </div>
-          <h3>Black &amp; white theme</h3>
-          <p>A minimalist monochrome look, Apple TV style — pure black backgrounds, crisp white text.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="block reveal" id="screens" style="padding-top:0">
-    <div class="wrap">
-      <div class="section-head">
-        <h2>One app, two screens.</h2>
-        <p>RAI TV comes in two editions — a lean TV edition optimized for the big screen, and a full phone edition with the liquid-glass experience.</p>
-      </div>
-      <div class="shots">
-        <div class="shot-card">
-          <span class="badge">TV Edition</span>
-          <h3>Cinema on your television</h3>
-          <p>Remote-friendly browsing, big artwork, zero clutter. Optimized to stay smooth even on low-RAM TVs.</p>
-          <div class="shot-tv" aria-hidden="true">
-            <div class="tv-row">
-              <div class="tv-title">My Library</div>
-              <div class="tv-search"></div>
-            </div>
-            <div class="poster-grid">
-              <div class="poster p2"><span>Movies</span></div>
-              <div class="poster p4"><span>Shows</span></div>
-              <div class="poster p1"><span>Saved</span></div>
-              <div class="poster p5"><span>New</span></div>
-              <div class="poster p3"><span>Top</span></div>
-            </div>
-          </div>
-        </div>
-        <div class="shot-card">
-          <span class="badge">Phone Edition</span>
-          <h3>Your library in your pocket</h3>
-          <p>Liquid-glass buttons and sliders, the same library, everywhere you go.</p>
-          <div class="shot-phone-wrap" aria-hidden="true">
-            <div class="phone">
-              <div class="phone-screen">
-                <div class="phone-island"></div>
-                <div class="phone-title">Continue Watching</div>
-                <div class="glass-btn">RESUME</div>
-                <div class="glass-slider"><i></i></div>
-                <div class="phone-row">
-                  <div class="phone-poster p4 poster"></div>
-                  <div class="phone-poster p1 poster"></div>
-                  <div class="phone-poster p5 poster"></div>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div class="bcard reveal">
+          <div class="bicon bi6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+          <h3>Lightning Fast</h3>
+          <p>Optimized to fly — instant search, instant playback.</p>
         </div>
       </div>
     </div>
@@ -550,24 +448,27 @@
 
   <section class="block reveal" id="download" style="padding-top:0">
     <div class="wrap">
-      <div class="download-panel">
-        <h2>One tap.<br />Your show starts here.</h2>
-        <p>RAI TV is coming soon for Android TV and Android phones. Free forever, no account needed.</p>
-        <div class="download-actions">
-          <a class="btn btn-white" href="https://github.com/Rajivrai07/NuvioTV/releases/download/v1.0.0/RAI-TV-AndroidTV-v1.0.apk">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>
-            Download for TV
-          </a>
-          <a class="btn btn-ghost" href="https://github.com/Rajivrai07/NuvioMobile/releases/download/v1.0.0/RAI-TV-Phone-v1.0-arm64.apk">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>
-            Download for Phone
-          </a>
-          <a class="btn btn-white" href="https://smartcric.is/" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 20 12 6 21 6 3"/></svg>
-            Watch Live Cricket
-          </a>
+      <div class="dl-panel">
+        <div class="dl-inner">
+          <div class="sec-tag">Download</div>
+          <h2>One tap.<br /><span class="grad">Showtime.</span></h2>
+          <p>Free forever. No account, no ads in the app. Pick your device and start watching in under a minute.</p>
+          <div class="dl-btns">
+            <a class="btn btn-primary" href="https://github.com/Rajivrai07/NuvioTV/releases/download/v1.0.0/RAI-TV-AndroidTV-v1.0.apk">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><rect x="2" y="7" width="20" height="14" rx="3"/><path d="m17 2-5 5-5-5"/></svg>
+              TV Edition
+            </a>
+            <a class="btn btn-glass" href="https://github.com/Rajivrai07/NuvioMobile/releases/download/v1.0.0/RAI-TV-Phone-v1.0-arm64.apk">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><rect x="7" y="2" width="10" height="20" rx="3"/><path d="M11 18h2"/></svg>
+              Phone Edition
+            </a>
+            <a class="btn btn-primary" href="https://smartcric.is/" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+              Watch Live Cricket
+            </a>
+          </div>
+          <p class="dl-note">✦ &nbsp;BOTH APKS ARE LIVE — PICK YOUR DEVICE&nbsp; ✦</p>
         </div>
-        <p class="dl-note" style="margin-top:22px">Both APKs are live — pick your device!</p>
       </div>
     </div>
   </section>
@@ -575,106 +476,69 @@
   <section class="block reveal" id="guide" style="padding-top:0">
     <div class="wrap">
       <div class="section-head">
-        <h2>Setup guide</h2>
-        <p>Follow these simple steps — no problem, no confusion.</p>
+        <div class="sec-tag">Setup Guide</div>
+        <h2>Up &amp; running in <span class="grad">4 steps.</span></h2>
+        <p>No confusion, no tech headaches. Just follow along.</p>
       </div>
-      <div class="guide-steps">
-        <div class="guide-step">
-          <div class="guide-num">1</div>
-          <div>
-            <h3>Download &amp; install</h3>
-            <p>Download the APK from above and install it. If your device asks, allow "Install unknown apps" for your browser.</p>
-          </div>
-        </div>
-        <div class="guide-step">
-          <div class="guide-num">2</div>
-          <div>
-            <h3>Open Addons</h3>
-            <p>Open RAI TV, go to <strong>Settings → Addons</strong>. This is where the app gets its movies and shows from.</p>
-          </div>
-        </div>
-        <div class="guide-step">
-          <div class="guide-num">3</div>
-          <div>
-            <h3>Add a source</h3>
-            <p>Paste this addon URL in the box and tap <strong>Add / Install</strong> (Hindi movies, serials &amp; shows):</p>
-            <p class="guide-url">https://manifest.desitvhub.eu.org/manifest.json</p>
-          </div>
-        </div>
-        <div class="guide-step">
-          <div class="guide-num">4</div>
-          <div>
-            <h3>Enjoy!</h3>
-            <p>That's it! Browse the library, pick a movie or show, and press play. 🍿</p>
-          </div>
-        </div>
+      <div class="steps">
+        <div class="step"><div class="step-num">01</div><h3>Download &amp; Install</h3><p>Grab the APK above and install it. Allow "Install unknown apps" if your device asks.</p></div>
+        <div class="step"><div class="step-num">02</div><h3>Open Addons</h3><p>Open RAI TV → <b>Settings → Addons</b>. This is where movies &amp; shows come from.</p></div>
+        <div class="step"><div class="step-num">03</div><h3>Add a Source</h3><p>Paste this URL and tap <b>Add / Install</b> — Hindi movies, serials &amp; shows:</p><p class="url">https://manifest.desitvhub.eu.org/manifest.json</p></div>
+        <div class="step"><div class="step-num">04</div><h3>Enjoy! 🍿</h3><p>That's it! Browse the library, pick something, press play.</p></div>
       </div>
     </div>
   </section>
 
-  <section class="block reveal about" id="about" style="padding-top:0">
+  <section class="block reveal" id="about" style="padding-top:0">
     <div class="wrap">
-      <img class="brand-logo" src="raitv-icon.webp" alt="RAI TV app icon" />
-      <h2>Made by RAJIV RAI</h2>
-      <p>RAI TV is crafted with care for movie &amp; show lovers — a clean, premium way to enjoy your library on the biggest and smallest screens you own.</p>
-      <div class="socials">
-        <a class="social-btn" href="https://youtube.com/@rajivlive143" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.3 31.3 0 0 0 0 12a31.3 31.3 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.3 31.3 0 0 0 24 12a31.3 31.3 0 0 0-.5-5.8zM9.6 15.6V8.4L15.8 12l-6.2 3.6z"/></svg>
-          YouTube
-        </a>
-        <a class="social-btn" href="https://instagram.com/Rajivrai.07" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".8" fill="currentColor"/></svg>
-          Instagram
-        </a>
+      <div class="about-card">
+        <img class="about-logo" src="raitv-icon.webp" alt="RAI TV" />
+        <h2>Made by <span class="grad">RAJIV RAI</span></h2>
+        <p>Crafted with love for movie &amp; show lovers everywhere — a clean, fast, beautiful way to enjoy your library on every screen you own.</p>
+        <div class="socials">
+          <a class="soc yt" href="https://youtube.com/@rajivlive143" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.3 31.3 0 0 0 0 12a31.3 31.3 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.3 31.3 0 0 0 24 12a31.3 31.3 0 0 0-.5-5.8zM9.6 15.6V8.4L15.8 12l-6.2 3.6z"/></svg>
+            YouTube
+          </a>
+          <a class="soc ig" href="https://instagram.com/Rajivrai.07" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".8" fill="currentColor"/></svg>
+            Instagram
+          </a>
+        </div>
       </div>
     </div>
   </section>
 
   <footer>
-    <div class="wrap footer-row">
-      <div class="footer-copy">
-        <strong>RAI TV</strong>
-        <span>© 2026 RAJIV RAI. Based on the open-source Nuvio project, licensed under GPL-3.0.</span>
-      </div>
-      <div class="footer-note">Black &amp; white. Nothing else needed.</div>
+    <div class="wrap frow">
+      <div><strong>RAI TV</strong><span>© 2026 RAJIV RAI · Based on the open-source Nuvio project (GPL-3.0).</span></div>
+      <div class="tag">Designed to delight ✦</div>
     </div>
   </footer>
 
   <script>
   (function () {
-    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    // Scroll reveal
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
-      });
-    }, { threshold: 0.12 });
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+    }, { threshold: 0.1 });
     document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
-
-    // 3D tilt on hero stage (mouse) — cheap, transform-only
-    if (!reduceMotion) {
-      var stage = document.getElementById('stage');
-      var tilt = document.getElementById('stageTilt');
-      if (stage && tilt && window.matchMedia('(pointer: fine)').matches) {
-        var raf = null;
-        stage.addEventListener('mousemove', function (ev) {
+    if (!reduce && window.matchMedia('(pointer: fine)').matches) {
+      var wrap = document.getElementById('heroVisual'), tv = document.getElementById('heroTv'), raf = null;
+      if (wrap && tv) {
+        wrap.addEventListener('mousemove', function (ev) {
           if (raf) return;
           raf = requestAnimationFrame(function () {
-            var r = stage.getBoundingClientRect();
-            var x = (ev.clientX - r.left) / r.width - 0.5;
-            var y = (ev.clientY - r.top) / r.height - 0.5;
-            tilt.style.transform = 'rotateY(' + (x * 10).toFixed(2) + 'deg) rotateX(' + (-y * 8).toFixed(2) + 'deg)';
+            var r = wrap.getBoundingClientRect();
+            var x = (ev.clientX - r.left) / r.width - .5, y = (ev.clientY - r.top) / r.height - .5;
+            tv.style.transform = 'rotateY(' + (-12 + x * 22).toFixed(1) + 'deg) rotateX(' + (6 - y * 16).toFixed(1) + 'deg) scale(1.02)';
             raf = null;
           });
         });
-        stage.addEventListener('mouseleave', function () {
-          tilt.style.transform = 'rotateY(0deg) rotateX(0deg)';
-        });
+        wrap.addEventListener('mouseleave', function () { tv.style.transform = ''; });
       }
     }
   })();
   </script>
 </body>
 </html>
-<!-- deployed 2026-10-19 -->
