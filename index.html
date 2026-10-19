@@ -7,20 +7,23 @@
   <meta name="theme-color" content="#000000" />
   <meta name="description" content="RAI TV — Your movies & shows, beautifully organized on TV and phone. By RAJIV RAI." />
   <link rel="icon" href="raitv-icon.webp" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;400;600;700;800&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <title>RAI TV — Your Movies & Shows, Beautifully Organized</title>
   <style>
     :root {
       color-scheme: dark;
       --bg: #000000;
       --bg-2: #0a0a0a;
-      --surface: #111111;
-      --surface-2: #1a1a1a;
       --text: #ffffff;
-      --muted: #a1a1a1;
-      --line: rgba(255,255,255,.12);
-      --glass: rgba(255,255,255,.08);
-      --radius: 22px;
-      --shadow: 0 24px 70px rgba(0,0,0,.6);
+      --muted: #a8a8a8;
+      --line: rgba(255,255,255,.14);
+      --glass: rgba(255,255,255,.07);
+      --glass-strong: rgba(255,255,255,.12);
+      --radius: 24px;
+      --font-head: "Outfit", -apple-system, "SF Pro Display", "Segoe UI", sans-serif;
+      --font-body: "Work Sans", -apple-system, "Segoe UI", Inter, Roboto, sans-serif;
     }
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
@@ -29,187 +32,273 @@
       overflow-x: hidden;
       background: var(--bg);
       color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Inter, Roboto, sans-serif;
+      font-family: var(--font-body);
       -webkit-font-smoothing: antialiased;
     }
+    h1, h2, h3 { font-family: var(--font-head); }
     a { color: inherit; }
     button, a { -webkit-tap-highlight-color: transparent; }
-    .wrap { width: min(1180px, calc(100% - 40px)); margin-inline: auto; }
+    .wrap { width: min(1180px, calc(100% - 40px)); margin-inline: auto; position: relative; z-index: 2; }
 
-    /* ---------- Nav ---------- */
-    .nav-wrap {
-      position: sticky; top: 0; z-index: 50;
-      padding-top: max(12px, env(safe-area-inset-top));
-      pointer-events: none;
+    /* ---------- Ambient 3D background orbs ---------- */
+    .orbs { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+    .orb {
+      position: absolute; border-radius: 50%;
+      filter: blur(90px); opacity: .5;
+      animation: drift 22s ease-in-out infinite alternate;
+      will-change: transform;
     }
+    .orb.o1 { width: 520px; height: 520px; left: -140px; top: -120px;
+      background: radial-gradient(circle, rgba(255,255,255,.14), transparent 70%); }
+    .orb.o2 { width: 460px; height: 460px; right: -120px; top: 32%;
+      background: radial-gradient(circle, rgba(160,160,160,.12), transparent 70%);
+      animation-delay: -8s; animation-duration: 26s; }
+    .orb.o3 { width: 420px; height: 420px; left: 30%; bottom: -160px;
+      background: radial-gradient(circle, rgba(255,255,255,.09), transparent 70%);
+      animation-delay: -14s; animation-duration: 30s; }
+    @keyframes drift {
+      from { transform: translate3d(0,0,0) scale(1); }
+      to   { transform: translate3d(60px, 40px, 0) scale(1.12); }
+    }
+
+    /* ---------- Nav (frosted glass) ---------- */
+    .nav-wrap { position: sticky; top: 0; z-index: 50; padding-top: max(12px, env(safe-area-inset-top)); pointer-events: none; }
     nav {
-      min-height: 62px;
-      padding: 8px 10px 8px 20px;
+      min-height: 62px; padding: 8px 10px 8px 20px;
       display: flex; align-items: center; justify-content: space-between; gap: 18px;
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      background: rgba(10,10,10,.82);
-      backdrop-filter: blur(18px) saturate(150%);
-      -webkit-backdrop-filter: blur(18px) saturate(150%);
+      border: 1px solid var(--line); border-radius: 20px;
+      background: rgba(12,12,14,.55);
+      backdrop-filter: blur(20px) saturate(160%);
+      -webkit-backdrop-filter: blur(20px) saturate(160%);
+      box-shadow: 0 12px 40px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.12);
       pointer-events: auto;
+      animation: navIn .8s cubic-bezier(.2,.8,.2,1) both;
     }
-    .nav-mark { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 17px; letter-spacing: -.02em; }
+    @keyframes navIn { from { opacity: 0; transform: translateY(-18px); } to { opacity: 1; transform: none; } }
+    .nav-mark { display: flex; align-items: center; gap: 10px; font-family: var(--font-head); font-weight: 800; font-size: 17px; letter-spacing: -.02em; }
     .nav-logo { width: 30px; height: 30px; border-radius: 8px; display: block; }
     .nav-links { display: flex; align-items: center; gap: 24px; }
-    .nav-links a { text-decoration: none; font-size: 14px; font-weight: 700; color: var(--muted); }
+    .nav-links a { text-decoration: none; font-size: 14px; font-weight: 600; color: var(--muted); transition: color .25s; }
     .nav-links a:hover { color: var(--text); }
     .nav-download {
       display: inline-flex; align-items: center; justify-content: center; gap: 8px;
       min-height: 44px; padding: 0 18px; border-radius: 14px;
       color: #000 !important; background: #fff;
-      font-weight: 800; font-size: 14px; text-decoration: none;
+      font-weight: 700; font-size: 14px; text-decoration: none;
+      transition: transform .25s, box-shadow .25s;
+      box-shadow: 0 6px 20px rgba(255,255,255,.18);
     }
-    .nav-download:hover { background: #e6e6e6; }
+    .nav-download:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(255,255,255,.28); }
 
     /* ---------- Hero ---------- */
-    .hero {
-      position: relative;
-      margin-top: -74px;
-      padding: 170px 0 90px;
-      background:
-        radial-gradient(ellipse 60% 45% at 50% 0%, rgba(255,255,255,.07), transparent 70%),
-        linear-gradient(180deg, #050505, var(--bg) 60%);
-      border-radius: 0 0 48px 48px;
-      overflow: hidden;
+    .hero { position: relative; margin-top: -74px; padding: 170px 0 90px; overflow: hidden; }
+    .hero-inner { text-align: center; perspective: 1200px; }
+    .brand-logo {
+      width: 92px; height: 92px; border-radius: 24px;
+      box-shadow: 0 24px 60px rgba(0,0,0,.65), 0 0 0 1px var(--line), 0 0 44px rgba(255,255,255,.12);
+      animation: floatY 5s ease-in-out infinite;
+      will-change: transform;
     }
-    .hero-inner { text-align: center; }
-    .brand-logo { width: 88px; height: 88px; border-radius: 22px; box-shadow: 0 18px 44px rgba(0,0,0,.6), 0 0 0 1px var(--line); }
+    @keyframes floatY { 0%,100% { transform: translateY(0) rotateX(0); } 50% { transform: translateY(-12px) rotateX(6deg); } }
     .eyebrow {
       display: inline-flex; align-items: center; gap: 10px;
-      margin: 26px 0 18px; font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase;
-      color: var(--muted);
+      margin: 26px 0 18px; font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase;
+      color: var(--muted); font-family: var(--font-head);
     }
-    .eyebrow i { display: block; width: 26px; height: 2px; background: #fff; }
-    h1, h2, h3 { margin: 0; letter-spacing: -.045em; line-height: .98; }
-    h1 { font-size: clamp(64px, 11vw, 150px); font-weight: 800; }
-    h1 .thin { font-weight: 200; color: var(--muted); }
-    .hero-sub { max-width: 620px; margin: 26px auto 0; color: var(--muted); font-size: clamp(17px, 2vw, 21px); line-height: 1.65; }
+    .eyebrow i { display: block; width: 26px; height: 2px; background: #fff; border-radius: 2px; }
+    h1, h2, h3 { margin: 0; letter-spacing: -.04em; line-height: .98; }
+    h1 {
+      font-size: clamp(64px, 11vw, 150px); font-weight: 800;
+      background: linear-gradient(180deg, #fff 30%, #8a8a8a 100%);
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 12px 32px rgba(255,255,255,.12));
+    }
+    .hero-sub { max-width: 620px; margin: 26px auto 0; color: var(--muted); font-size: clamp(16px, 2vw, 20px); line-height: 1.65; font-weight: 400; }
     .hero-actions { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 36px; flex-wrap: wrap; }
     .btn {
-      min-height: 58px; padding: 0 26px; display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-      border-radius: 999px; text-decoration: none; font-weight: 800; font-size: 15px; border: 1px solid transparent;
+      min-height: 58px; padding: 0 28px; display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      border-radius: 999px; text-decoration: none; font-weight: 700; font-size: 15px; font-family: var(--font-head);
+      border: 1px solid transparent;
+      transition: transform .28s cubic-bezier(.2,.8,.2,1), box-shadow .28s, background .28s;
+      will-change: transform;
     }
-    .btn-white { background: #fff; color: #000; }
-    .btn-white:hover { background: #e8e8e8; transform: translateY(-1px); }
-    .btn-ghost { background: var(--glass); color: #fff; border-color: var(--line); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
-    .btn-ghost:hover { background: rgba(255,255,255,.14); transform: translateY(-1px); }
+    .btn-white { background: #fff; color: #000; box-shadow: 0 10px 34px rgba(255,255,255,.22); }
+    .btn-white:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 16px 44px rgba(255,255,255,.32); }
+    .btn-ghost {
+      background: var(--glass); color: #fff; border-color: var(--line);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.18), 0 10px 30px rgba(0,0,0,.4);
+    }
+    .btn-ghost:hover { transform: translateY(-3px) scale(1.02); background: rgba(255,255,255,.14); box-shadow: inset 0 1px 0 rgba(255,255,255,.25), 0 16px 40px rgba(0,0,0,.5); }
     .btn svg { width: 18px; height: 18px; }
-    .dl-note { margin-top: 16px; font-size: 12px; font-weight: 700; color: var(--muted); letter-spacing: .04em; }
+    .btn:active { transform: translateY(0) scale(.98); }
+    .dl-note { margin-top: 16px; font-size: 12px; font-weight: 600; color: var(--muted); letter-spacing: .05em; }
 
-    /* ---------- Device mockups ---------- */
-    .stage { position: relative; margin-top: 70px; display: flex; align-items: flex-end; justify-content: center; gap: 34px; }
+    /* ---------- 3D device stage ---------- */
+    .stage {
+      position: relative; margin-top: 70px;
+      display: flex; align-items: flex-end; justify-content: center; gap: 34px;
+      perspective: 1400px;
+    }
+    .stage-tilt { display: flex; align-items: flex-end; justify-content: center; gap: 34px; transform-style: preserve-3d; transition: transform .35s ease-out; will-change: transform; }
     .tv {
       width: min(640px, 92%); aspect-ratio: 16/9; border-radius: 26px;
-      background: #050505; border: 1px solid var(--line);
-      box-shadow: var(--shadow), inset 0 0 0 8px #000;
+      background: rgba(8,8,10,.72); border: 1px solid var(--line);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 34px 90px rgba(0,0,0,.65), inset 0 1px 0 rgba(255,255,255,.15), inset 0 0 0 8px rgba(0,0,0,.6);
       padding: 26px; position: relative; overflow: hidden;
+      transform: translateZ(30px);
+      animation: stageIn 1s cubic-bezier(.2,.8,.2,1) .25s both;
     }
-    .tv-stand { width: 120px; height: 10px; margin: 0 auto; background: #1c1c1c; border-radius: 0 0 10px 10px; }
+    @keyframes stageIn { from { opacity: 0; transform: translateZ(30px) translateY(46px); } to { opacity: 1; transform: translateZ(30px) translateY(0); } }
+    .tv::after {
+      content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+      background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,.09) 45%, transparent 60%);
+    }
+    .tv-stand { width: 120px; height: 10px; margin: 0 auto; background: #1c1c1c; border-radius: 0 0 10px 10px; box-shadow: 0 14px 30px rgba(0,0,0,.6); }
     .tv-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
-    .tv-title { font-weight: 800; font-size: 20px; letter-spacing: -.02em; }
-    .tv-search { width: 150px; height: 30px; border-radius: 999px; background: var(--glass); border: 1px solid var(--line); }
+    .tv-title { font-family: var(--font-head); font-weight: 700; font-size: 20px; letter-spacing: -.02em; }
+    .tv-search { width: 150px; height: 30px; border-radius: 999px; background: rgba(255,255,255,.08); border: 1px solid var(--line); }
     .poster-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
     .poster {
       aspect-ratio: 2/3; border-radius: 10px; border: 1px solid var(--line);
       display: flex; align-items: flex-end; padding: 8px;
-      font-size: 9px; font-weight: 800; color: rgba(255,255,255,.85);
+      font-size: 9px; font-weight: 700; color: rgba(255,255,255,.85); font-family: var(--font-head);
+      transition: transform .3s cubic-bezier(.2,.8,.2,1), box-shadow .3s;
+      box-shadow: 0 8px 22px rgba(0,0,0,.45);
     }
-    .poster.p1 { background: linear-gradient(160deg, #3a3a3a, #0d0d0d); }
-    .poster.p2 { background: linear-gradient(160deg, #555, #141414); }
+    .poster:hover { transform: translateY(-6px) scale(1.04); box-shadow: 0 16px 34px rgba(0,0,0,.55), 0 0 20px rgba(255,255,255,.1); }
+    .poster.p1 { background: linear-gradient(160deg, #3d3d3d, #0d0d0d); }
+    .poster.p2 { background: linear-gradient(160deg, #585858, #141414); }
     .poster.p3 { background: linear-gradient(160deg, #2b2b2b, #000); }
-    .poster.p4 { background: linear-gradient(160deg, #484848, #101010); }
-    .poster.p5 { background: linear-gradient(160deg, #333, #080808); }
+    .poster.p4 { background: linear-gradient(160deg, #4c4c4c, #101010); }
+    .poster.p5 { background: linear-gradient(160deg, #363636, #080808); }
     .phone {
       width: 190px; flex: 0 0 auto; border-radius: 34px; padding: 10px;
-      background: #000; border: 1px solid var(--line); box-shadow: var(--shadow);
+      background: rgba(5,5,6,.85); border: 1px solid var(--line);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 30px 70px rgba(0,0,0,.65), inset 0 1px 0 rgba(255,255,255,.14);
+      transform: translateZ(70px);
+      animation: stageIn 1s cubic-bezier(.2,.8,.2,1) .4s both, phoneFloat 6s ease-in-out 1.4s infinite;
     }
-    .phone-screen { border-radius: 26px; background: #0a0a0a; overflow: hidden; padding: 14px 12px 12px; }
+    @keyframes phoneFloat { 0%,100% { translate: 0 0; } 50% { translate: 0 -10px; } }
+    .phone-screen { border-radius: 26px; background: rgba(10,10,12,.9); overflow: hidden; padding: 14px 12px 12px; }
     .phone-island { width: 64px; height: 18px; border-radius: 999px; background: #000; margin: 0 auto 12px; border: 1px solid rgba(255,255,255,.08); }
-    .phone-title { font-size: 13px; font-weight: 800; margin-bottom: 10px; }
+    .phone-title { font-family: var(--font-head); font-size: 13px; font-weight: 700; margin-bottom: 10px; }
     .glass-btn {
       height: 34px; border-radius: 999px; margin-bottom: 10px;
-      background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.22);
+      background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.22);
       backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.2);
       display: flex; align-items: center; justify-content: center;
-      font-size: 10px; font-weight: 800; letter-spacing: .06em;
+      font-size: 10px; font-weight: 700; letter-spacing: .06em; font-family: var(--font-head);
     }
-    .glass-slider { height: 5px; border-radius: 4px; background: rgba(255,255,255,.15); margin: 12px 0 4px; overflow: hidden; }
-    .glass-slider i { display: block; width: 58%; height: 100%; background: #fff; border-radius: inherit; }
+    .glass-slider { height: 5px; border-radius: 4px; background: rgba(255,255,255,.14); margin: 12px 0 4px; overflow: hidden; }
+    .glass-slider i { display: block; width: 58%; height: 100%; background: linear-gradient(90deg, #fff, #bbb); border-radius: inherit; animation: slidePulse 3s ease-in-out infinite; }
+    @keyframes slidePulse { 0%,100% { width: 58%; } 50% { width: 72%; } }
     .phone-row { display: flex; gap: 8px; margin-top: 10px; }
     .phone-poster { flex: 1; aspect-ratio: 2/3; border-radius: 8px; border: 1px solid var(--line); }
 
+    /* ---------- Scroll reveal ---------- */
+    .reveal { opacity: 0; transform: translateY(34px); transition: opacity .8s cubic-bezier(.2,.8,.2,1), transform .8s cubic-bezier(.2,.8,.2,1); }
+    .reveal.visible { opacity: 1; transform: none; }
+
     /* ---------- Sections ---------- */
-    section.block { padding: 96px 0; }
+    section.block { padding: 96px 0; position: relative; }
     .section-head { max-width: 760px; margin-bottom: 52px; }
     .section-head h2 { font-size: clamp(38px, 5vw, 64px); font-weight: 800; }
     .section-head p { margin: 18px 0 0; color: var(--muted); font-size: 17px; line-height: 1.7; }
-    .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+
+    /* Glass feature cards with 3D tilt */
+    .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; perspective: 1200px; }
     .feature {
-      padding: 30px; border-radius: var(--radius);
-      background: var(--surface); border: 1px solid var(--line);
+      padding: 32px; border-radius: var(--radius);
+      background: var(--glass); border: 1px solid var(--line);
+      backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+      box-shadow: 0 18px 50px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.14);
+      transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s, border-color .35s;
+      transform-style: preserve-3d; will-change: transform;
     }
-    .feature:hover { border-color: rgba(255,255,255,.28); }
+    .feature:hover {
+      transform: translateY(-8px) rotateX(4deg) rotateY(-4deg);
+      border-color: rgba(255,255,255,.3);
+      box-shadow: 0 30px 70px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.22), 0 0 34px rgba(255,255,255,.07);
+    }
     .feature-icon {
-      width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center;
-      background: #fff; color: #000; margin-bottom: 22px;
+      width: 50px; height: 50px; border-radius: 15px; display: grid; place-items: center;
+      background: linear-gradient(145deg, #fff, #c9c9c9); color: #000; margin-bottom: 22px;
+      box-shadow: 0 10px 26px rgba(255,255,255,.2), inset 0 1px 0 rgba(255,255,255,.6);
+      transform: translateZ(24px);
     }
     .feature-icon svg { width: 22px; height: 22px; }
-    .feature h3 { font-size: 21px; margin-bottom: 10px; letter-spacing: -.02em; }
+    .feature h3 { font-size: 21px; margin-bottom: 10px; letter-spacing: -.02em; transform: translateZ(12px); }
     .feature p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.65; }
     .feature.wide { grid-column: span 2; display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; }
-    .glass-demo { display: flex; flex-direction: column; gap: 10px; width: 210px; }
+    .glass-demo { display: flex; flex-direction: column; gap: 10px; width: 210px; transform: translateZ(18px); }
 
     /* ---------- Screenshots ---------- */
-    .shots { display: grid; grid-template-columns: 1.2fr .8fr; gap: 26px; align-items: stretch; }
+    .shots { display: grid; grid-template-columns: 1.2fr .8fr; gap: 26px; align-items: stretch; perspective: 1200px; }
     .shot-card {
-      border-radius: 30px; border: 1px solid var(--line); background: var(--bg-2);
+      border-radius: 30px; border: 1px solid var(--line);
+      background: var(--glass); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+      box-shadow: 0 20px 60px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.14);
       padding: 34px; overflow: hidden; position: relative;
+      transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s;
     }
+    .shot-card:hover { transform: translateY(-6px); box-shadow: 0 32px 80px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.2); }
     .shot-card h3 { font-size: 24px; margin-bottom: 8px; }
     .shot-card > p { color: var(--muted); font-size: 14px; margin: 0 0 26px; line-height: 1.6; }
-    .shot-tv { aspect-ratio: 16/9; border-radius: 18px; background: #000; border: 1px solid var(--line); padding: 20px; }
+    .shot-tv { aspect-ratio: 16/9; border-radius: 18px; background: rgba(0,0,0,.6); border: 1px solid var(--line); padding: 20px; box-shadow: inset 0 0 40px rgba(0,0,0,.5); }
     .shot-phone-wrap { display: flex; justify-content: center; }
-    .badge { display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: #000; background: #fff; border-radius: 999px; padding: 6px 14px; margin-bottom: 14px; }
+    .badge {
+      display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+      color: #000; background: linear-gradient(145deg, #fff, #d4d4d4); border-radius: 999px; padding: 6px 14px; margin-bottom: 14px;
+      font-family: var(--font-head); box-shadow: 0 6px 18px rgba(255,255,255,.2);
+    }
 
     /* ---------- Download panel ---------- */
     .download-panel {
       border-radius: 36px; border: 1px solid var(--line);
-      background:
-        radial-gradient(ellipse 70% 90% at 50% 110%, rgba(255,255,255,.08), transparent 60%),
-        var(--bg-2);
+      background: rgba(14,14,16,.55);
+      backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px);
+      box-shadow: 0 30px 90px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.16);
       padding: 76px 40px; text-align: center; position: relative; overflow: hidden;
     }
     .download-panel::before {
       content: "▶"; position: absolute; right: 6%; bottom: -70px;
-      font-size: 260px; color: rgba(255,255,255,.04); transform: rotate(8deg);
+      font-size: 260px; color: rgba(255,255,255,.045); transform: rotate(8deg);
     }
-    .download-panel h2 { font-size: clamp(40px, 6vw, 76px); font-weight: 800; position: relative; }
-    .download-panel p { color: var(--muted); max-width: 560px; margin: 20px auto 0; font-size: 16px; line-height: 1.7; position: relative; }
-    .download-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 32px; position: relative; }
+    .download-panel::after {
+      content: ""; position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(255,255,255,.08), transparent 70%);
+    }
+    .download-panel h2 { font-size: clamp(40px, 6vw, 76px); font-weight: 800; position: relative; z-index: 1; }
+    .download-panel p { color: var(--muted); max-width: 560px; margin: 20px auto 0; font-size: 16px; line-height: 1.7; position: relative; z-index: 1; }
+    .download-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 32px; position: relative; z-index: 1; }
 
     /* ---------- Setup guide ---------- */
     .guide-steps { display: grid; gap: 16px; max-width: 760px; }
     .guide-step {
       display: flex; gap: 20px; align-items: flex-start;
       background: var(--glass); border: 1px solid var(--line);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 14px 40px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.12);
       border-radius: 20px; padding: 24px;
+      transition: transform .3s cubic-bezier(.2,.8,.2,1), border-color .3s;
     }
+    .guide-step:hover { transform: translateX(8px); border-color: rgba(255,255,255,.28); }
     .guide-num {
       flex: 0 0 48px; width: 48px; height: 48px; border-radius: 50%;
-      background: #fff; color: #000;
+      background: linear-gradient(145deg, #fff, #cfcfcf); color: #000;
       display: flex; align-items: center; justify-content: center;
-      font-weight: 800; font-size: 20px;
+      font-weight: 800; font-size: 20px; font-family: var(--font-head);
+      box-shadow: 0 8px 22px rgba(255,255,255,.2);
     }
     .guide-step h3 { font-size: 19px; margin: 0 0 8px; }
     .guide-step p { color: var(--muted); margin: 0; font-size: 15px; line-height: 1.7; }
     .guide-url {
       margin-top: 10px !important; padding: 12px 16px; border-radius: 12px;
-      background: #000; border: 1px solid var(--line);
+      background: rgba(0,0,0,.65); border: 1px solid var(--line);
       color: #fff !important; font-family: monospace; font-size: 14px !important;
       word-break: break-all; user-select: all;
     }
@@ -219,23 +308,31 @@
     .about .brand-logo { margin: 0 auto; }
     .about h2 { font-size: clamp(32px, 4vw, 52px); margin-top: 22px; }
     .about p { color: var(--muted); max-width: 560px; margin: 16px auto 0; line-height: 1.7; font-size: 16px; }
-    .socials { display: flex; gap: 12px; justify-content: center; margin-top: 28px; }
+    .socials { display: flex; gap: 12px; justify-content: center; margin-top: 28px; flex-wrap: wrap; }
     .social-btn {
       display: inline-flex; align-items: center; gap: 10px;
-      padding: 14px 22px; border-radius: 999px; text-decoration: none;
+      padding: 14px 24px; border-radius: 999px; text-decoration: none;
       background: var(--glass); border: 1px solid var(--line);
-      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-      font-weight: 800; font-size: 14px;
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.14), 0 10px 28px rgba(0,0,0,.4);
+      font-weight: 700; font-size: 14px; font-family: var(--font-head);
+      transition: transform .28s cubic-bezier(.2,.8,.2,1), background .28s, box-shadow .28s;
     }
-    .social-btn:hover { background: rgba(255,255,255,.15); }
+    .social-btn:hover { transform: translateY(-3px) scale(1.03); background: rgba(255,255,255,.14); box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 16px 38px rgba(0,0,0,.5); }
     .social-btn svg { width: 18px; height: 18px; }
 
     /* ---------- Footer ---------- */
-    footer { border-top: 1px solid var(--line); padding: 34px 0 max(34px, env(safe-area-inset-bottom)); }
+    footer { border-top: 1px solid var(--line); padding: 34px 0 max(34px, env(safe-area-inset-bottom)); position: relative; z-index: 2; }
     .footer-row { display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap; }
-    .footer-copy strong { font-size: 16px; letter-spacing: -.01em; }
+    .footer-copy strong { font-family: var(--font-head); font-size: 16px; letter-spacing: -.01em; }
     .footer-copy span { display: block; margin-top: 6px; color: var(--muted); font-size: 12px; line-height: 1.6; max-width: 520px; }
     .footer-note { color: var(--muted); font-size: 12px; }
+
+    /* ---------- Reduced motion ---------- */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
 
     @media (max-width: 960px) {
       .nav-links a:not(.nav-download) { display: none; }
@@ -243,13 +340,14 @@
       .feature.wide { grid-column: span 2; }
       .shots { grid-template-columns: 1fr; }
       .stage { flex-direction: column; align-items: center; }
+      .stage-tilt { flex-direction: column; align-items: center; }
       .phone { order: -1; }
     }
     @media (max-width: 620px) {
       .wrap { width: min(100% - 28px, 1180px); }
       nav { min-height: 56px; padding: 6px 7px 6px 14px; border-radius: 16px; }
       .nav-mark span { display: none; }
-      .hero { margin-top: -65px; padding: 140px 0 70px; border-radius: 0 0 32px 32px; }
+      .hero { margin-top: -65px; padding: 140px 0 70px; }
       .hero-actions { flex-direction: column; align-items: stretch; }
       .btn { width: 100%; }
       section.block { padding: 72px 0; }
@@ -264,6 +362,12 @@
   </style>
 </head>
 <body>
+  <div class="orbs" aria-hidden="true">
+    <div class="orb o1"></div>
+    <div class="orb o2"></div>
+    <div class="orb o3"></div>
+  </div>
+
   <div class="nav-wrap wrap">
     <nav aria-label="Primary navigation">
       <div class="nav-mark">
@@ -284,7 +388,7 @@
     <div class="wrap hero-inner">
       <img class="brand-logo" src="raitv-icon.webp" alt="RAI TV app icon" />
       <div class="eyebrow"><i></i>Android TV &amp; Phone<i></i></div>
-      <h1>RAI <span class="thin">TV</span></h1>
+      <h1>RAI TV</h1>
       <p class="hero-sub">Your movies &amp; shows, beautifully organized on TV and phone. A premium black &amp; white experience, made for the big screen in your living room.</p>
       <div class="hero-actions">
         <a class="btn btn-white" href="#download">
@@ -298,34 +402,36 @@
       </div>
       <p class="dl-note">APK download links coming soon</p>
 
-      <div class="stage" aria-hidden="true">
-        <div>
-          <div class="tv">
-            <div class="tv-row">
-              <div class="tv-title">Continue Watching</div>
-              <div class="tv-search"></div>
+      <div class="stage" id="stage" aria-hidden="true">
+        <div class="stage-tilt" id="stageTilt">
+          <div>
+            <div class="tv">
+              <div class="tv-row">
+                <div class="tv-title">Continue Watching</div>
+                <div class="tv-search"></div>
+              </div>
+              <div class="poster-grid">
+                <div class="poster p1"><span>Featured</span></div>
+                <div class="poster p2"><span>Trending</span></div>
+                <div class="poster p3"><span>New</span></div>
+                <div class="poster p4"><span>Top 10</span></div>
+                <div class="poster p5"><span>For You</span></div>
+              </div>
             </div>
-            <div class="poster-grid">
-              <div class="poster p1"><span>Featured</span></div>
-              <div class="poster p2"><span>Trending</span></div>
-              <div class="poster p3"><span>New</span></div>
-              <div class="poster p4"><span>Top 10</span></div>
-              <div class="poster p5"><span>For You</span></div>
-            </div>
+            <div class="tv-stand"></div>
           </div>
-          <div class="tv-stand"></div>
-        </div>
-        <div class="phone">
-          <div class="phone-screen">
-            <div class="phone-island"></div>
-            <div class="phone-title">RAI TV</div>
-            <div class="glass-btn">PLAY</div>
-            <div class="glass-btn">+ MY LIST</div>
-            <div class="glass-slider"><i></i></div>
-            <div class="phone-row">
-              <div class="phone-poster p1 poster"></div>
-              <div class="phone-poster p2 poster"></div>
-              <div class="phone-poster p3 poster"></div>
+          <div class="phone">
+            <div class="phone-screen">
+              <div class="phone-island"></div>
+              <div class="phone-title">RAI TV</div>
+              <div class="glass-btn">PLAY</div>
+              <div class="glass-btn">+ MY LIST</div>
+              <div class="glass-slider"><i></i></div>
+              <div class="phone-row">
+                <div class="phone-poster p1 poster"></div>
+                <div class="phone-poster p2 poster"></div>
+                <div class="phone-poster p3 poster"></div>
+              </div>
             </div>
           </div>
         </div>
@@ -335,12 +441,12 @@
 
   <section class="block" id="features">
     <div class="wrap">
-      <div class="section-head">
+      <div class="section-head reveal">
         <h2>Everything your watchlist needs.</h2>
         <p>RAI TV turns your sources into a clean, cinematic library — with artwork, ratings and subtitles, in a pure black &amp; white design.</p>
       </div>
       <div class="feature-grid">
-        <div class="feature wide">
+        <div class="feature wide reveal">
           <div>
             <div class="feature-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="m17 2-5 5-5-5"/></svg>
@@ -354,37 +460,37 @@
             <div class="glass-slider"><i></i></div>
           </div>
         </div>
-        <div class="feature">
+        <div class="feature reveal">
           <div class="feature-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
           </div>
           <h3>Library with artwork</h3>
           <p>Posters, ratings and rich metadata — your collection looks like a premium streaming service.</p>
         </div>
-        <div class="feature">
+        <div class="feature reveal">
           <div class="feature-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2-2z"/></svg>
           </div>
           <h3>Subtitles included</h3>
           <p>Automatic subtitle support so you never miss a dialogue, in any language.</p>
         </div>
-        <div class="feature">
+        <div class="feature reveal">
           <div class="feature-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
           </div>
           <h3>Continue watching</h3>
           <p>Your place is saved on every screen. Start on the phone, finish on the TV.</p>
         </div>
-        <div class="feature">
+        <div class="feature reveal">
           <div class="feature-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg>
           </div>
           <h3>Liquid-glass UI on phone</h3>
           <p>The phone version gets the signature liquid-glass buttons and sliders — smooth and premium.</p>
         </div>
-        <div class="feature">
+        <div class="feature reveal">
           <div class="feature-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
           </div>
           <h3>Black &amp; white theme</h3>
           <p>A minimalist monochrome look, Apple TV style — pure black backgrounds, crisp white text.</p>
@@ -393,7 +499,7 @@
     </div>
   </section>
 
-  <section class="block" id="screens" style="padding-top:0">
+  <section class="block reveal" id="screens" style="padding-top:0">
     <div class="wrap">
       <div class="section-head">
         <h2>One app, two screens.</h2>
@@ -442,12 +548,11 @@
     </div>
   </section>
 
-  <section class="block" id="download" style="padding-top:0">
+  <section class="block reveal" id="download" style="padding-top:0">
     <div class="wrap">
       <div class="download-panel">
         <h2>One tap.<br />Your show starts here.</h2>
         <p>RAI TV is coming soon for Android TV and Android phones. Free forever, no account needed.</p>
-        <!-- TODO: replace "#" with real APK download URLs when releases are ready -->
         <div class="download-actions">
           <a class="btn btn-white" href="https://github.com/Rajivrai07/NuvioTV/releases/download/v1.0.0/RAI-TV-AndroidTV-v1.0.apk">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>
@@ -467,7 +572,7 @@
     </div>
   </section>
 
-  <section class="block" id="guide" style="padding-top:0">
+  <section class="block reveal" id="guide" style="padding-top:0">
     <div class="wrap">
       <div class="section-head">
         <h2>Setup guide</h2>
@@ -507,7 +612,7 @@
     </div>
   </section>
 
-  <section class="block about" id="about" style="padding-top:0">
+  <section class="block reveal about" id="about" style="padding-top:0">
     <div class="wrap">
       <img class="brand-logo" src="raitv-icon.webp" alt="RAI TV app icon" />
       <h2>Made by RAJIV RAI</h2>
@@ -534,5 +639,41 @@
       <div class="footer-note">Black &amp; white. Nothing else needed.</div>
     </div>
   </footer>
+
+  <script>
+  (function () {
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Scroll reveal
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+
+    // 3D tilt on hero stage (mouse) — cheap, transform-only
+    if (!reduceMotion) {
+      var stage = document.getElementById('stage');
+      var tilt = document.getElementById('stageTilt');
+      if (stage && tilt && window.matchMedia('(pointer: fine)').matches) {
+        var raf = null;
+        stage.addEventListener('mousemove', function (ev) {
+          if (raf) return;
+          raf = requestAnimationFrame(function () {
+            var r = stage.getBoundingClientRect();
+            var x = (ev.clientX - r.left) / r.width - 0.5;
+            var y = (ev.clientY - r.top) / r.height - 0.5;
+            tilt.style.transform = 'rotateY(' + (x * 10).toFixed(2) + 'deg) rotateX(' + (-y * 8).toFixed(2) + 'deg)';
+            raf = null;
+          });
+        });
+        stage.addEventListener('mouseleave', function () {
+          tilt.style.transform = 'rotateY(0deg) rotateX(0deg)';
+        });
+      }
+    }
+  })();
+  </script>
 </body>
 </html>
